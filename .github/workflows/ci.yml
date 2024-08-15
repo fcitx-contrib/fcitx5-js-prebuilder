@@ -39,6 +39,7 @@ jobs:
           python scripts/json.py
           python scripts/json-c.py
           python scripts/marisa.py
+          python scripts/libthai.py
 
       - name: Release
         if: ${{ github.ref == 'refs/heads/master' }}

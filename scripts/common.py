@@ -10,6 +10,21 @@ def ensure(program: str, args: list[str]):
         raise Exception("Command failed")
 
 
+def patch(project: str, src: str, dst: str | None = None):
+    src = f'patches/{src}'
+    if dst:
+        ensure('cp', [
+            src,
+            f'{project}/{dst}'
+        ])
+    else:
+        ensure('git', [
+            'apply',
+            f'--directory={project}',
+            src
+        ])
+
+
 class Builder:
     def __init__(self, name: str, options: list[str] | None=None):
         self.name = name
