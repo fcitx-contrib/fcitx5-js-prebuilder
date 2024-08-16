@@ -82,3 +82,21 @@ class MesonBuilder(Builder):
     def install(self):
         os.environ['DESTDIR'] = self.destdir
         ensure('ninja', ['-C', 'build', 'install'])
+
+
+class MakeBuilder(Builder):
+    def configure(self):
+        os.chdir(f'{self.root}/{self.name}')
+        ensure('./configure', [
+            '-C',
+            '--prefix=/usr',
+            *self.options
+        ])
+
+    def build(self):
+        ensure('make', ['-j8'])
+
+    def install(self):
+        os.environ['DESTDIR'] = self.destdir
+        ensure('make', ['install'])
+ 

@@ -36,6 +36,7 @@ jobs:
         run: |
           . emsdk/emsdk_env.sh
           python scripts/fmt.py
+          python scripts/iso-codes.py
           python scripts/json.py
           python scripts/json-c.py
           python scripts/marisa.py
