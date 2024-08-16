@@ -60,3 +60,25 @@ class Builder:
         self.build()
         self.install()
         self.package()
+
+
+class MesonBuilder(Builder):
+    def configure(self):
+        os.chdir(f'{self.root}/{self.name}')
+        ensure('meson', [
+            'setup',
+            'build',
+            '--cross-file=../scripts/meson-cross.ini',
+            '--buildtype=release',
+            '--prefix=/usr',
+            '--default-library=static',
+            *self.options
+        ])
+
+    def build(self):
+        ensure('ninja', ['-C', 'build', 'clean'])
+        ensure('ninja', ['-C', 'build'])
+
+    def install(self):
+        os.environ['DESTDIR'] = self.destdir
+        ensure('ninja', ['-C', 'build', 'install'])

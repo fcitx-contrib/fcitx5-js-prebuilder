@@ -40,6 +40,7 @@ jobs:
           python scripts/json-c.py
           python scripts/marisa.py
           python scripts/libthai.py
+          python scripts/libxkbcommon.py
 
       - name: Release
         if: ${{ github.ref == 'refs/heads/master' }}
