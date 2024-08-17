@@ -41,6 +41,7 @@ jobs:
           python scripts/iso-codes.py
           python scripts/json.py
           python scripts/json-c.py
+          python scripts/leveldb.py
           python scripts/libexpat.py
           python scripts/libthai.py
           python scripts/libxkbcommon.py

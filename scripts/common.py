@@ -10,18 +10,17 @@ def ensure(program: str, args: list[str]):
         raise Exception("Command failed")
 
 
-def patch(project: str, src: str, dst: str | None = None):
-    src = f'patches/{src}'
-    if dst:
+def patch(project: str, src: str | None = None, dst: str | None = None):
+    if src and dst:
         ensure('cp', [
-            src,
+            f'patches/{src}',
             f'{project}/{dst}'
         ])
     else:
         ensure('git', [
             'apply',
             f'--directory={project}',
-            src
+            f'patches/{project}.patch'
         ])
 
 

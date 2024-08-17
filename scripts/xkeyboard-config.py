@@ -1,3 +1,3 @@
-from common import MesonBuilder, patch
+from common import MesonBuilder
 
 MesonBuilder('xkeyboard-config').exec()
