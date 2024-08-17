@@ -7,4 +7,4 @@ patch(project)
 Builder(project, [
     '-DLEVELDB_BUILD_BENCHMARKS=OFF',
     '-DLEVELDB_BUILD_TESTS=OFF'
-]).exec()
+], dep=True).exec()

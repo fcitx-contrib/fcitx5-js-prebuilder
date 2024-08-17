@@ -21,4 +21,4 @@ patch(project)
 Builder(project, [
     '-DUSE_SYSTEM_MARISA=ON',
     '-DENABLE_DARTS=OFF'
-]).exec()
+], dep=True).exec()

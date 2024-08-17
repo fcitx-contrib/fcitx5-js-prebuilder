@@ -4,4 +4,4 @@ Builder('glog', [
     '-DWITH_GFLAGS=OFF',
     '-DWITH_UNWIND=OFF',
     '-DBUILD_TESTING=OFF'
-]).exec()
+], dep=True).exec()

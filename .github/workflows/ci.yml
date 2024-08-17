@@ -50,6 +50,7 @@ jobs:
           python scripts/opencc.py
           python scripts/xkeyboard-config.py
           python scripts/yaml-cpp.py
+          python scripts/librime.py
 
       - name: Release
         if: ${{ github.ref == 'refs/heads/master' }}

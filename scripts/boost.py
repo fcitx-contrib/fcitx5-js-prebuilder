@@ -30,7 +30,7 @@ Builder(boost_dir, [
     '-DBOOST_IOSTREAMS_ENABLE_ZLIB=Off',
     '-DBOOST_IOSTREAMS_ENABLE_LZMA=Off',
     '-DBOOST_IOSTREAMS_ENABLE_ZSTD=Off'
-]).exec()
+], dep=True).exec()
 
 os.chdir(f'{cwd}/build')
 ensure('mv', [

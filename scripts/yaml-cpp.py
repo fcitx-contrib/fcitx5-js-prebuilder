@@ -4,4 +4,4 @@ Builder('yaml-cpp', [
     '-DYAML_CPP_BUILD_CONTRIB=OFF',
     '-DYAML_CPP_BUILD_TESTS=OFF',
     '-DYAML_CPP_BUILD_TOOLS=OFF'
-]).exec()
+], dep=True).exec()
