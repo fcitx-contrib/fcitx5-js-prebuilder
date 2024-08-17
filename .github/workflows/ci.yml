@@ -46,6 +46,7 @@ jobs:
           python scripts/libthai.py
           python scripts/libxkbcommon.py
           python scripts/marisa.py
+          python scripts/opencc.py
           python scripts/xkeyboard-config.py
           python scripts/yaml-cpp.py
 
