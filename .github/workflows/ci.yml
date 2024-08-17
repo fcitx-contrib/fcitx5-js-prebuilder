@@ -44,8 +44,9 @@ jobs:
           python scripts/libexpat.py
           python scripts/libthai.py
           python scripts/libxkbcommon.py
-          python scripts/xkeyboard-config.py
           python scripts/marisa.py
+          python scripts/xkeyboard-config.py
+          python scripts/yaml-cpp.py
 
       - name: Release
         if: ${{ github.ref == 'refs/heads/master' }}
