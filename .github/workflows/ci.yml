@@ -38,6 +38,7 @@ jobs:
           . emsdk/emsdk_env.sh
           python scripts/boost.py
           python scripts/fmt.py
+          python scripts/glog.py
           python scripts/iso-codes.py
           python scripts/json.py
           python scripts/json-c.py
