@@ -23,7 +23,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt install -y ninja-build
+          sudo apt install -y ninja-build \
+            meson
 
       - name: Install emsdk
         run: |
@@ -36,10 +37,14 @@ jobs:
         run: |
           . emsdk/emsdk_env.sh
           python scripts/fmt.py
+          python scripts/iso-codes.py
           python scripts/json.py
           python scripts/json-c.py
-          python scripts/marisa.py
+          python scripts/libexpat.py
           python scripts/libthai.py
+          python scripts/libxkbcommon.py
+          python scripts/xkeyboard-config.py
+          python scripts/marisa.py
 
       - name: Release
         if: ${{ github.ref == 'refs/heads/master' }}

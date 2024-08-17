@@ -13,3 +13,15 @@
 [submodule "libthai"]
 	path = libthai
 	url = https://github.com/tlwg/libthai
+[submodule "libxkbcommon"]
+	path = libxkbcommon
+	url = https://github.com/xkbcommon/libxkbcommon
+[submodule "iso-codes"]
+	path = iso-codes
+	url = https://salsa.debian.org/iso-codes-team/iso-codes
+[submodule "libexpat"]
+	path = libexpat
+	url = https://github.com/libexpat/libexpat
+[submodule "xkeyboard-config"]
+	path = xkeyboard-config
+	url = https://gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config

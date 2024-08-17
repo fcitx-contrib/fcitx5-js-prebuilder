@@ -26,16 +26,18 @@ def patch(project: str, src: str, dst: str | None = None):
 
 
 class Builder:
-    def __init__(self, name: str, options: list[str] | None=None):
+    def __init__(self, name: str, options: list[str] | None=None, src='.'):
         self.name = name
         self.root = os.getcwd()
         self.destdir = f'{self.root}/build/{self.name}'
         self.options = options or []
+        self.src = src
 
     def configure(self):
         os.chdir(f'{self.root}/{self.name}')
         ensure('emcmake', ['cmake',
             '-B', 'build', '-G', 'Ninja',
+            '-S', self.src,
             '-DBUILD_SHARED_LIBS=OFF',
             f'-DCMAKE_INSTALL_PREFIX={INSTALL_PREFIX}',
             '-DCMAKE_BUILD_TYPE=Release',
@@ -60,3 +62,43 @@ class Builder:
         self.build()
         self.install()
         self.package()
+
+
+class MesonBuilder(Builder):
+    def configure(self):
+        os.chdir(f'{self.root}/{self.name}')
+        ensure('meson', [
+            'setup',
+            'build',
+            '--cross-file=../scripts/meson-cross.ini',
+            '--buildtype=release',
+            '--prefix=/usr',
+            '--default-library=static',
+            *self.options
+        ])
+
+    def build(self):
+        ensure('ninja', ['-C', 'build', 'clean'])
+        ensure('ninja', ['-C', 'build'])
+
+    def install(self):
+        os.environ['DESTDIR'] = self.destdir
+        ensure('ninja', ['-C', 'build', 'install'])
+
+
+class MakeBuilder(Builder):
+    def configure(self):
+        os.chdir(f'{self.root}/{self.name}')
+        ensure('./configure', [
+            '-C',
+            '--prefix=/usr',
+            *self.options
+        ])
+
+    def build(self):
+        ensure('make', ['-j8'])
+
+    def install(self):
+        os.environ['DESTDIR'] = self.destdir
+        ensure('make', ['install'])
+ 
