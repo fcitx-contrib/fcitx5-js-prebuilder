@@ -25,6 +25,18 @@ def patch(project: str, src: str, dst: str | None = None):
         ])
 
 
+def cache(url: str):
+    file = url[url.rindex('/') + 1:]
+    path = f'cache/{file}'
+    if os.path.isfile(path):
+        print(f'Using cached {file}')
+        return
+    ensure('wget', [
+        '-P',
+        'cache',
+        url
+    ])
+
 class Builder:
     def __init__(self, name: str, options: list[str] | None=None, src='.'):
         self.name = name

@@ -36,6 +36,7 @@ jobs:
       - name: Build
         run: |
           . emsdk/emsdk_env.sh
+          python scripts/boost.py
           python scripts/fmt.py
           python scripts/iso-codes.py
           python scripts/json.py
