@@ -1,7 +1,9 @@
 from common import MesonBuilder, patch
 
 project = 'libxkbcommon'
-patch(project, f'{project}.patch')
+
+patch(project)
+
 MesonBuilder(project, [
     '-Denable-tools=false',
     '-Denable-x11=false',

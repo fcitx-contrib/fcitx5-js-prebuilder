@@ -25,3 +25,18 @@
 [submodule "xkeyboard-config"]
 	path = xkeyboard-config
 	url = https://gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config
+[submodule "yaml-cpp"]
+	path = yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp
+[submodule "leveldb"]
+	path = leveldb
+	url = https://github.com/google/leveldb
+[submodule "opencc"]
+	path = opencc
+	url = git@github.com:BYVoid/OpenCC
+[submodule "glog"]
+	path = glog
+	url = https://github.com/google/glog
+[submodule "librime"]
+	path = librime
+	url = https://github.com/rime/librime

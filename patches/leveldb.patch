@@ -1,0 +1,28 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f8285b8..db5abef 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -281,11 +281,6 @@ endif(HAVE_TCMALLOC)
+ find_package(Threads REQUIRED)
+ target_link_libraries(leveldb Threads::Threads)
+ 
+-add_executable(leveldbutil
+-  "db/leveldbutil.cc"
+-)
+-target_link_libraries(leveldbutil leveldb)
+-
+ if(LEVELDB_BUILD_TESTS)
+   enable_testing()
+ 
+diff --git a/util/env_posix.cc b/util/env_posix.cc
+index d84cd1e..773c8cd 100644
+--- a/util/env_posix.cc
++++ b/util/env_posix.cc
+@@ -781,6 +781,7 @@ PosixEnv::PosixEnv()
+ void PosixEnv::Schedule(
+     void (*background_work_function)(void* background_work_arg),
+     void* background_work_arg) {
++  return background_work_function(background_work_arg);
+   background_work_mutex_.Lock();
+ 
+   // Start the background thread, if we haven't done so already.

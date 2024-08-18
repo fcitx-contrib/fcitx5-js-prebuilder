@@ -10,28 +10,40 @@ def ensure(program: str, args: list[str]):
         raise Exception("Command failed")
 
 
-def patch(project: str, src: str, dst: str | None = None):
-    src = f'patches/{src}'
-    if dst:
+def patch(project: str, src: str | None = None, dst: str | None = None):
+    if src and dst:
         ensure('cp', [
-            src,
+            f'patches/{src}',
             f'{project}/{dst}'
         ])
     else:
         ensure('git', [
             'apply',
             f'--directory={project}',
-            src
+            f'patches/{project}.patch'
         ])
 
 
+def cache(url: str):
+    file = url[url.rindex('/') + 1:]
+    path = f'cache/{file}'
+    if os.path.isfile(path):
+        print(f'Using cached {file}')
+        return
+    ensure('wget', [
+        '-P',
+        'cache',
+        url
+    ])
+
 class Builder:
-    def __init__(self, name: str, options: list[str] | None=None, src='.'):
+    def __init__(self, name: str, options: list[str] | None=None, src='.', dep=False):
         self.name = name
         self.root = os.getcwd()
         self.destdir = f'{self.root}/build/{self.name}'
         self.options = options or []
         self.src = src
+        self.dep = dep
 
     def configure(self):
         os.chdir(f'{self.root}/{self.name}')
@@ -40,6 +52,7 @@ class Builder:
             '-S', self.src,
             '-DBUILD_SHARED_LIBS=OFF',
             f'-DCMAKE_INSTALL_PREFIX={INSTALL_PREFIX}',
+            f'-DCMAKE_FIND_ROOT_PATH={self.root}/build/sysroot/usr',
             '-DCMAKE_BUILD_TYPE=Release',
             '-DCMAKE_C_FLAGS=-fPIC',
             '-DCMAKE_CXX_FLAGS=-fPIC',
@@ -57,11 +70,19 @@ class Builder:
         os.chdir(f'{self.destdir}{INSTALL_PREFIX}')
         ensure('tar', ['cjvf', f'{self.destdir}.tar.bz2', '*'])
 
+    def extract(self):
+        directory = 'build/sysroot/usr'
+        os.chdir(self.root)
+        ensure('mkdir', ['-p', directory])
+        ensure('tar', ['xjvf', f'{self.destdir}.tar.bz2', '-C', directory])
+
     def exec(self):
         self.configure()
         self.build()
         self.install()
         self.package()
+        if self.dep:
+            self.extract()
 
 
 class MesonBuilder(Builder):

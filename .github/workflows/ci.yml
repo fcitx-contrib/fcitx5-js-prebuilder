@@ -36,15 +36,21 @@ jobs:
       - name: Build
         run: |
           . emsdk/emsdk_env.sh
+          python scripts/boost.py
           python scripts/fmt.py
+          python scripts/glog.py
           python scripts/iso-codes.py
           python scripts/json.py
           python scripts/json-c.py
+          python scripts/leveldb.py
           python scripts/libexpat.py
           python scripts/libthai.py
           python scripts/libxkbcommon.py
-          python scripts/xkeyboard-config.py
           python scripts/marisa.py
+          python scripts/opencc.py
+          python scripts/xkeyboard-config.py
+          python scripts/yaml-cpp.py
+          python scripts/librime.py
 
       - name: Release
         if: ${{ github.ref == 'refs/heads/master' }}
