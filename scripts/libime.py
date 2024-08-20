@@ -1,5 +1,5 @@
 import os
-from common import Builder, ensure, patch
+from common import Builder, cache, ensure, patch
 
 root = os.getcwd()
 
@@ -13,6 +13,21 @@ ensure('sed', [
     '-i',
     f'"s|prefix=/usr|prefix={root}/build/sysroot/usr|g"',
     'build/sysroot/usr/lib/pkgconfig/libzstd.pc'
+])
+
+prebuilt = 'libime-arm64.tar.bz2'
+url = f'https://github.com/fcitx-contrib/fcitx5-macos-prebuilder/releases/download/latest/{prebuilt}'
+
+cache(url)
+directory = 'build/libime/usr'
+ensure('mkdir', ['-p', directory])
+ensure('tar', [
+    'xjvf',
+    f'cache/{prebuilt}',
+    '-C',
+    directory,
+    'lib/libime',
+    'share'
 ])
 
 project = 'libime'
