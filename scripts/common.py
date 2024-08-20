@@ -37,18 +37,19 @@ def cache(url: str):
     ])
 
 class Builder:
-    def __init__(self, name: str, options: list[str] | None=None, src='.', dep=False):
+    def __init__(self, name: str, options: list[str] | None=None, src='.', build='build', dep=False):
         self.name = name
         self.root = os.getcwd()
         self.destdir = f'{self.root}/build/{self.name}'
         self.options = options or []
         self.src = src
+        self.build_ = build
         self.dep = dep
 
     def configure(self):
         os.chdir(f'{self.root}/{self.name}')
         ensure('emcmake', ['cmake',
-            '-B', 'build', '-G', 'Ninja',
+            '-B', self.build_, '-G', 'Ninja',
             '-S', self.src,
             '-DBUILD_SHARED_LIBS=OFF',
             f'-DCMAKE_INSTALL_PREFIX={INSTALL_PREFIX}',
@@ -60,11 +61,11 @@ class Builder:
         ])
 
     def build(self):
-        ensure('cmake', ['--build', 'build'])
+        ensure('cmake', ['--build', self.build_])
 
     def install(self):
         os.environ['DESTDIR'] = self.destdir
-        ensure('cmake', ['--install', 'build'])
+        ensure('cmake', ['--install', self.build_])
 
     def package(self):
         os.chdir(f'{self.destdir}{INSTALL_PREFIX}')
