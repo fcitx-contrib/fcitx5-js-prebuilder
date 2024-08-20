@@ -1,6 +1,7 @@
 from common import Builder
 
 Builder('zstd', [
+    '-DZSTD_MULTITHREAD_SUPPORT=OFF',
     '-DZSTD_LEGACY_SUPPORT=OFF',
     '-DZSTD_BUILD_PROGRAMS=OFF',
     '-DZSTD_BUILD_TESTS=OFF',
