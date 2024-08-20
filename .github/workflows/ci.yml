@@ -25,6 +25,7 @@ jobs:
         run: |
           sudo apt install -y ninja-build \
             meson
+          ./install-deps.sh
 
       - name: Install emsdk
         run: |
@@ -37,6 +38,7 @@ jobs:
         run: |
           . emsdk/emsdk_env.sh
           python scripts/boost.py
+          python scripts/extra-cmake-modules.py
           python scripts/fmt.py
           python scripts/glog.py
           python scripts/iso-codes.py
@@ -51,6 +53,7 @@ jobs:
           python scripts/xkeyboard-config.py
           python scripts/yaml-cpp.py
           python scripts/zstd.py
+          python scripts/libime.py
           python scripts/librime.py
 
       - name: Release

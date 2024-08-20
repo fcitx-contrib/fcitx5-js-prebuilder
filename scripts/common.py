@@ -47,6 +47,7 @@ class Builder:
         self.dep = dep
 
     def configure(self):
+        os.environ['PKG_CONFIG_PATH'] = f'{self.root}/build/sysroot/usr/lib/pkgconfig'
         os.chdir(f'{self.root}/{self.name}')
         ensure('emcmake', ['cmake',
             '-B', self.build_, '-G', 'Ninja',

@@ -43,3 +43,9 @@
 [submodule "zstd"]
 	path = zstd
 	url = https://github.com/facebook/zstd
+[submodule "libime"]
+	path = libime
+	url = https://github.com/fcitx/libime
+[submodule "extra-cmake-modules"]
+	path = extra-cmake-modules
+	url = https://github.com/KDE/extra-cmake-modules
