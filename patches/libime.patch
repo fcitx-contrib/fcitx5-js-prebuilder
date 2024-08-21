@@ -1,0 +1,85 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a835346..b1585f7 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -32,9 +32,9 @@ find_package(PkgConfig REQUIRED)
+ pkg_check_modules(ZSTD REQUIRED IMPORTED_TARGET "libzstd")
+ 
+ find_package(Fcitx5Utils REQUIRED)
+-include("${FCITX_INSTALL_CMAKECONFIG_DIR}/Fcitx5Utils/Fcitx5CompilerSettings.cmake")
++include("../build/sysroot${FCITX_INSTALL_CMAKECONFIG_DIR}/Fcitx5Utils/Fcitx5CompilerSettings.cmake")
+ 
+-find_package(Boost 1.61 REQUIRED COMPONENTS iostreams filesystem)
++find_package(Boost 1.61 REQUIRED COMPONENTS iostreams)
+ set(LIBIME_INSTALL_PKGDATADIR "${CMAKE_INSTALL_FULL_DATADIR}/libime")
+ set(LIBIME_INSTALL_LIBDATADIR "${CMAKE_INSTALL_FULL_LIBDIR}/libime")
+ 
+@@ -56,7 +56,6 @@ if(ENABLE_TEST)
+ endif()
+ 
+ add_subdirectory(src)
+-add_subdirectory(tools)
+ 
+ if (ENABLE_DATA)
+   add_subdirectory(data)
+diff --git a/src/libime/core/CMakeLists.txt b/src/libime/core/CMakeLists.txt
+index 89dd191..ed3f1b5 100644
+--- a/src/libime/core/CMakeLists.txt
++++ b/src/libime/core/CMakeLists.txt
+@@ -68,7 +68,7 @@ ecm_setup_version(PROJECT
+ # the cmake if will
+ set(IMECore_SOVERSION 0)
+ 
+-add_library(IMECore SHARED ${LIBIME_SRCS})
++add_library(IMECore STATIC ${LIBIME_SRCS})
+ set_target_properties(IMECore
+                       PROPERTIES VERSION ${IMECore_VERSION}
+                       SOVERSION ${IMECore_SOVERSION}
+@@ -81,7 +81,7 @@ target_include_directories(IMECore PUBLIC
+ 
+ target_link_libraries(IMECore PUBLIC Fcitx5::Utils Boost::boost PRIVATE kenlm Boost::iostreams PkgConfig::ZSTD)
+ 
+-install(TARGETS IMECore EXPORT LibIMECoreTargets LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT lib)
++install(TARGETS IMECore kenlm EXPORT LibIMECoreTargets LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT lib)
+ install(FILES ${LIBIME_HDRS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/LibIME/libime/core" COMPONENT header)
+ 
+ add_library(LibIME::Core ALIAS IMECore)
+diff --git a/src/libime/core/utils_p.h b/src/libime/core/utils_p.h
+index 5915fd0..d9ad2d8 100644
+--- a/src/libime/core/utils_p.h
++++ b/src/libime/core/utils_p.h
+@@ -12,7 +12,7 @@
+ #include <utility>
+ #include <vector>
+ 
+-#if defined(__linux__) || defined(__GLIBC__)
++#if defined(__linux__) || defined(__GLIBC__) || defined(__EMSCRIPTEN__)
+ #include <endian.h>
+ #elif defined(__APPLE__)
+ #include <libkern/OSByteOrder.h>
+diff --git a/src/libime/pinyin/CMakeLists.txt b/src/libime/pinyin/CMakeLists.txt
+index a5e6d35..601d559 100644
+--- a/src/libime/pinyin/CMakeLists.txt
++++ b/src/libime/pinyin/CMakeLists.txt
+@@ -32,7 +32,7 @@ ecm_setup_version(PROJECT
+                   PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/LibIMEPinyinConfigVersion.cmake")
+ set(IMEPinyin_SOVERSION 0)
+ 
+-add_library(IMEPinyin SHARED ${LIBIME_PINYIN_SRCS})
++add_library(IMEPinyin STATIC ${LIBIME_PINYIN_SRCS})
+ set_target_properties(IMEPinyin PROPERTIES
+                       VERSION ${IMEPinyin_VERSION}
+                       SOVERSION ${IMEPinyin_SOVERSION}
+diff --git a/src/libime/table/CMakeLists.txt b/src/libime/table/CMakeLists.txt
+index 62317bd..dd47d0b 100644
+--- a/src/libime/table/CMakeLists.txt
++++ b/src/libime/table/CMakeLists.txt
+@@ -23,7 +23,7 @@ ecm_setup_version(PROJECT
+                   PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/LibIMETableConfigVersion.cmake")
+ set(IMETable_SOVERSION 0)
+ 
+-add_library(IMETable SHARED ${LIBIME_TABLE_SRCS})
++add_library(IMETable STATIC ${LIBIME_TABLE_SRCS})
+ set_target_properties(IMETable
+                       PROPERTIES VERSION ${IMETable_VERSION}
+                       SOVERSION ${IMETable_SOVERSION}
