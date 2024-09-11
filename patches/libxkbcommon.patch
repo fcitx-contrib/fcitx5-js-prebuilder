@@ -1,21 +1,8 @@
 diff --git a/meson.build b/meson.build
-index 2de4ee9..1a42dcc 100644
+index 2de4ee9..ad45e02 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -94,12 +94,6 @@ endif
- if cc.links('int main(){if(__builtin_expect(1<0,0)){}}', name: '__builtin_expect')
-     configh_data.set('HAVE___BUILTIN_EXPECT', 1)
- endif
--if cc.has_header_symbol('unistd.h', 'eaccess', prefix: system_ext_define)
--    configh_data.set('HAVE_EACCESS', 1)
--endif
--if cc.has_header_symbol('unistd.h', 'euidaccess', prefix: system_ext_define)
--    configh_data.set('HAVE_EUIDACCESS', 1)
--endif
- if cc.has_header_symbol('sys/mman.h', 'mmap')
-     configh_data.set('HAVE_MMAP', 1)
- endif
-@@ -600,281 +594,6 @@ configure_file(input: 'test/xkeyboard-config-test.py.in',
+@@ -600,281 +600,6 @@ configure_file(input: 'test/xkeyboard-config-test.py.in',
                 output: 'xkeyboard-config-test',
                 configuration: xkct_config)
  
