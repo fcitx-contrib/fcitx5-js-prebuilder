@@ -1,6 +1,10 @@
-from common import Builder
+from common import Builder, patch
 
-Builder('librime', [
+project = 'librime'
+
+patch(project)
+
+Builder(project, [
     '-DENABLE_THREADING=OFF',
-    '-DBUILD_TEST:BOOL=OFF'
+    '-DBUILD_TEST=OFF'
 ]).exec()
