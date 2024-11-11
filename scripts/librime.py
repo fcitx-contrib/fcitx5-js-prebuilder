@@ -1,4 +1,4 @@
-from common import Builder
+from common import Builder, patch
 
 project = 'librime'
 
